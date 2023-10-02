@@ -29,7 +29,7 @@ app.get('/Customers', (req, res) => {
 });
 
 // Get customer by ID
-app.get('/Customers/:id', (req, res) => {
+app.get('/Customers/: id', (req, res) => {
     db.get('SELECT * FROM Customers WHERE id = ?', req.params.id, (err, row) => {
         if (err) {
             res.status(500).send(err);
@@ -58,5 +58,29 @@ app.post('/Customers', (req, res) => {
     });
 });
 
+app.put('/Customers/:id', (req, res) => {
+    const customer = req.body;
+    db.run('UPDATE Customers SET name = ?, book_id = ?, date_id = ? WHERE id = ?',
+        customer.name, customer.book_id, customer.date_id, req.params.id,
+        function (err) {
+            if (err) {
+                res.status(500).send(err);
+            } else {
+                res.send(customer);
+            }
+        });
+});
+
+app.delete('/Customers/:id', (req, res) => {
+    db.run('DELETE FROM Customers WHERE id = ?', req.params.id, function (err) {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            res.send({});
+        }
+    });
+});
+
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on port ${port}...`));
+
