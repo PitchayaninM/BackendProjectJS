@@ -10,13 +10,21 @@ const db = new sqlite3.Database('./Database/Customer.sqlite');
 app.use(express.json());
 
 // Create Customers table if not exists
+// db.run(`CREATE TABLE IF NOT EXISTS Customers (
+//     id INTEGER PRIMARY KEY,
+//     name TEXT,
+//     book_id INTEGER,
+//     date_id INTEGER
+// )`);
+
 db.run(`CREATE TABLE IF NOT EXISTS Customers (
     id INTEGER PRIMARY KEY,
     name TEXT,
     book_id INTEGER,
-    date_id INTEGER
+    date_id INTEGER,
+    FOREIGN KEY (book_id) REFERENCES Books(id),
+    FOREIGN KEY (date_id) REFERENCES Dates(id)
 )`);
-
 // Get all customers
 app.get('/Customers', (req, res) => {
     db.all('SELECT * FROM Customers', (err, rows) => {
