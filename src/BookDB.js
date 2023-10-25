@@ -92,7 +92,7 @@ app.post('/borrower', async (req, res) => {
 
 app.get('/books', async (req, res) => {
   try {
-    const books = await Book.findAll(req.params.id)({
+    const books = await Book.findAll({
       include: [
         {
           model: Borrower,
