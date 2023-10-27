@@ -133,7 +133,6 @@ app.get('/books', async (req, res) => {
   }
 });
 
-
 app.get('/books/:id',(req,res) => {
   Book.findByPk(req.params.id).then(books => {
      if(!books){
